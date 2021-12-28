@@ -9,27 +9,36 @@ import UIKit
 
 
 struct LoggedInUser {}
+struct FeedItem {}
 
-
-//Global mutable shared state
+//'s'ingleton
 class ApiClient {
-    static var shared = ApiClient()
+    static let shared = ApiClient()
     
-    func login(completion: (LoggedInUser) -> Void) { }
+    func login(completion: (LoggedInUser) -> Void) {}
+    func loadFeed(completion: (FeedItem) -> Void) {}
 }
 
-let client = ApiClient.shared
+class MockApiClient: ApiClient {}
 
-
-class MockApiClient: ApiClient { }
-
-ApiClient.shared = MockApiClient()
-
- 
 class LoginViewController: UIViewController {
+    var api = ApiClient.shared //You need this for testing - property dependency injection
+    
     func didTapLoginButton() {
-        ApiClient.shared.login() { user in
-            //show next screen
+        api.login() { user in
+            //show feed screen
+        }
+    }
+}
+
+class FeedViewController: UIViewController {
+    var api = ApiClient.shared
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        api.loadFeed() { loadedItems in
+            //update UI
         }
     }
 }
