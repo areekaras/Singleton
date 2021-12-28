@@ -7,6 +7,14 @@
 
 import UIKit
 
+//Main Module
+extension ApiClient {
+    func login(completion: (LoggedInUser) -> Void) {}
+}
+
+extension ApiClient {
+    func loadFeed(completion: (FeedItem) -> Void) {}
+}
 
 //Api Module
 class ApiClient {
@@ -15,39 +23,27 @@ class ApiClient {
     func execute(_ : URLRequest, completion: (Data) -> Void) {}
 }
 
-
 //Login Module
 struct LoggedInUser {}
 
-extension ApiClient {
-    func login(completion: (LoggedInUser) -> Void) {}
-}
-
 class LoginViewController: UIViewController {
-    var api = ApiClient.shared //You need this for testing - property dependency injection
+    var login: (((LoggedInUser) -> Void) -> Void)?
     
     func didTapLoginButton() {
-        api.login() { user in
+        login?() { user in
             //show feed screen
         }
     }
 }
 
-
 //Feed Module
 struct FeedItem {}
 
-extension ApiClient {
-    func loadFeed(completion: (FeedItem) -> Void) {}
-}
-
-class FeedViewController: UIViewController {
-    var api = ApiClient.shared
+class FeedService {
+    var loadFeed: (((FeedItem) -> Void) -> Void)?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        api.loadFeed() { loadedItems in
+    func load() {
+        loadFeed?() { loadedItems in
             //update UI
         }
     }
