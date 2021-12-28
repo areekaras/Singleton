@@ -7,14 +7,10 @@
 
 import UIKit
 
-class ApiClient {
-    private static let instance = ApiClient()
-    
-    public static func getInstance() -> ApiClient {
-        return instance
-    }
-    
+final class ApiClient {
+    static let instance = ApiClient()
+        
     private init() {}
 }
 
-let client = ApiClient.getInstance()
+let client = ApiClient.instance
