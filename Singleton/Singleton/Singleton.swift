@@ -7,6 +7,7 @@
 
 import UIKit
 
+//'S'ingleton
 final class ApiClient {
     static let instance = ApiClient()
         
@@ -14,3 +15,9 @@ final class ApiClient {
 }
 
 let client = ApiClient.instance
+
+
+
+//'s'ingleton
+URLSession.shared
+URLSession()
