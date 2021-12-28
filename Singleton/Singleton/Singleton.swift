@@ -7,17 +7,29 @@
 
 import UIKit
 
-//'S'ingleton
-final class ApiClient {
-    static let instance = ApiClient()
-        
-    private init() {}
+
+struct LoggedInUser {}
+
+
+//Global mutable shared state
+class ApiClient {
+    static var shared = ApiClient()
+    
+    func login(completion: (LoggedInUser) -> Void) { }
 }
 
-let client = ApiClient.instance
+let client = ApiClient.shared
 
 
+class MockApiClient: ApiClient { }
 
-//'s'ingleton
-URLSession.shared
-URLSession()
+ApiClient.shared = MockApiClient()
+
+ 
+class LoginViewController: UIViewController {
+    func didTapLoginButton() {
+        ApiClient.shared.login() { user in
+            //show next screen
+        }
+    }
+}
